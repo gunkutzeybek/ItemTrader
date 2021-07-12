@@ -43,7 +43,7 @@ namespace ItemTrader.Api
                     {
                         ValidateAudience = false
                     };
-
+                    options.RequireHttpsMetadata = false;
                 });
         }
 
