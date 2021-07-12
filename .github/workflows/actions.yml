@@ -59,7 +59,7 @@ jobs:
       run: exit 1
 
     - name: Terraform apply
-      run: terraform apply -auto-approve -var-file="terraform.tfvars"
+      run: terraform apply -auto-approve
 
     - name: Publish
       run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader'
