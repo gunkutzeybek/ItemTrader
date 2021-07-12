@@ -66,10 +66,10 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: Publish Api
-      run: dotnet publish --project ./src/ItemTrader.WebAPI/ItemTrader.Api.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.Api'
+      run: dotnet publish ./src/ItemTrader.WebAPI/ItemTrader.Api.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.Api'
 
     - name: Publish AuthServer
-      run: dotnet public --project ./src/ItemTrader.IdentityServer/ItemTrader.IdentityServer.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.AuthServer'
+      run: dotnet publish ./src/ItemTrader.IdentityServer/ItemTrader.IdentityServer.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.AuthServer'
 
     - name: Deploy Api WebAPP
       uses: Azure/Webapps-deploy@v2
