@@ -66,8 +66,8 @@ resource "azurerm_sql_database" "gunkut_dev" {
 
 resource "azurerm_app_service_plan" "gunkut_dev" {
     name = "itemtrader-appserviceplan"
-    location = "westus2"
-    resource_group_name = "itemtrader-tf"
+    location = azurerm_resource_group.gunkut_dev.location
+    resource_group_name = azurerm_resource_group.gunkut_dev.name
 
     sku {
         tier = "Free"
