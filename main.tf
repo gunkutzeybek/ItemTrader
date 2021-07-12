@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "gunkut_dev" {
     location = "westus2"
 }
 
-resource "azurerm_sql_sqrver" "gunkut_dev" {
+resource "azurerm_sql_server" "gunkut_dev" {
     name = var.SQL_SERVER_NAME
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     location = azurerm_resource_group.gunkut_dev.location
@@ -28,10 +28,10 @@ resource "azurerm_sql_sqrver" "gunkut_dev" {
 }
 
 resource "azurerm_sql_database" "gunkut_dev" {
-    name = ItemTraderDB
+    name = "ItemTraderDB"
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     location = azurerm_resource_group.gunkut_dev.location
-    server_name = azurerm_sql_sqrver.gunkut_dev.name
+    server_name = azurerm_sql_server.gunkut_dev.name
 }
 
 resource "azurerm_app_service_plan" "gunkut_dev" {
@@ -45,7 +45,7 @@ resource "azurerm_app_service_plan" "gunkut_dev" {
     }    
 }
 
-resource "azurerm_app_service" "gunkut_dev" {
+resource "azurerm_app_service" "itemtrader_api" {
     name = "itemtrader-appservice"
     location = azurerm_resource_group.gunkut_dev.location
     resource_group_name = azurerm_resource_group.gunkut_dev.name
@@ -58,7 +58,7 @@ resource "azurerm_app_service" "gunkut_dev" {
     }
 }
 
-resource "azurerm_app_service" "gunkut_dev" {
+resource "azurerm_app_service" "auth_server" {
     name = "itemtrader-authserver"
     location = azurerm_resource_group.gunkut_dev.location
     resource_group_name = azurerm_resource_group.gunkut_dev.name
