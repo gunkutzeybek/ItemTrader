@@ -16,6 +16,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CRED }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -35,10 +38,11 @@ jobs:
       uses: hashicorp/setup-terraform@v1.2.1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        terraform_wrapper: false
 
     - name: Terraform init
       id: init
-      run: terraform init
+      run: terraform init        
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -61,5 +65,22 @@ jobs:
     - name: Terraform apply
       run: terraform apply -auto-approve
 
-    - name: Publish
-      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader'
+    - name: Publish Api
+      run: dotnet publish --project ./src/ItemTrader.WebAPI/ItemTrader.Api.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.Api'
+
+    - name: Publish AuthServer
+      run: dotnet public --project ./src/ItemTrader.IdentityServer/ItemTrader.IdentityServer.csproj -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.AuthServer'
+
+    - name: Deploy Api WebAPP
+      uses: Azure/Webapps-deploy@v2
+      with: 
+        app-name: $(terraform output app_service_name_itemtrader_api)
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.Api
+    
+    - name: Deploy AuthServer WebApp
+      uses: Azure/Webapps-deploy@v2
+      with:
+        app-name: $(terraform output app_service_name_auth_server)
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.AuthServer
+      
+    

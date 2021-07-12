@@ -29,12 +29,12 @@ resource "azurerm_resource_group" "gunkut_dev" {
 }
 
 resource "azurerm_sql_server" "gunkut_dev" {
-    name = "itemtrader-dbserver"
+    name = "itetrader-dbserver"
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     location = azurerm_resource_group.gunkut_dev.location
     version = "12.0"
     administrator_login = "gunkut"
-    administrator_login_password = "compela_Dv$$45"
+    administrator_login_password = "camurdanEv23$"    
 }
 
 resource "azurerm_sql_database" "gunkut_dev" {
@@ -81,6 +81,21 @@ resource "azurerm_app_service" "auth_server" {
     }
 }
 
+output "app_service_name_itemtrader_api" {
+  value = "${azurerm_app_service.itemtrader_api.name}"
+}
+
+output "app_service_default_hostname_itemtrader_api" {
+  value = "https://${azurerm_app_service.itemtrader_api.default_site_hostname}"
+}
+
+output "app_service_name_auth_server" {
+  value = "${azurerm_app_service.auth_server.name}"
+}
+
+output "app_service_default_hostname_auth_server" {
+  value = "https://${azurerm_app_service.auth_server.default_site_hostname}"
+}
 
 
 
