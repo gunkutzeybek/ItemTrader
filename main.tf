@@ -64,7 +64,7 @@ resource "azurerm_app_service" "itemtrader_api" {
     connection_string {
         name = "DefaultConnection"
         type = "sqlserver"
-        value = "Server=azurerm_sql_server.gunkut_dev.fully_qualified_domain_name;Database=azurerm_sql_database.gunkut_dev.name;uid=var.SQL_DB_USER;var.SQL_DB_PASS"
+        value = "Server=azurerm_sql_server.gunkut_dev.sql_server_fqdn;Database=azurerm_sql_database.gunkut_dev.database_name;uid=gunkut;camurdanEv23$"
     }
 }
 
@@ -77,7 +77,7 @@ resource "azurerm_app_service" "auth_server" {
     connection_string {
         name = "DefaultConnection"
         type = "sqlserver"
-        value = "Server=azurerm_sql_server.gunkut_dev.fully_qualified_domain_name;Database=azurerm_sql_database.gunkut_dev.name;uid=var.SQL_DB_USER;var.SQL_DB_PASS"
+        value = "Server=azurerm_sql_server.gunkut_dev.sql_server_fqdn;Database=azurerm_sql_database.gunkut_dev.database_name;uid=gunkut;camurdanEv23$"
     }
 }
 
