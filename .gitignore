@@ -1,5 +1,7 @@
 /.vs/
 
+/.terraform/
+
 *.DotSettings.User
 
 **/bin/
@@ -7,3 +9,9 @@
 **/obj/
 
 **/*.csproj.user
+
+.terraform.lock.hcl
+
+terraform.tfstate
+
+terraform.tfstate.backup
