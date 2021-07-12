@@ -17,8 +17,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CRED }}
+      with:
+        creds: ${{ secrets.AZURE_CRED }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
