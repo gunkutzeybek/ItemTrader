@@ -45,6 +45,6 @@ jobs:
       if: steps.plan.outcome == 'failure'
       run: exit 1
     - name: Terraform apply
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve -var-file="terraform.tfvars"
     - name: Publish
       run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader'
