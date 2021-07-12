@@ -16,14 +16,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore --configuration Release
+
     - name: Test
       run: dotnet test --no-build --verbosity normal --configuration Release
     
@@ -31,20 +35,33 @@ jobs:
       uses: hashicorp/setup-terraform@v1.2.1
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
     - name: Terraform init
       id: init
       run: terraform init
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      with:
+        args: '-var="SQL_SERVER_NAME=${{ secrets.SQL_SERVER_NAME }}" -var="SQL_DB_USER=${{ secrets.SQL_DB_USER }}" -var="SQL_DB_PASS=${{ secrets.SQL_DB_PASS }}"'
+      
     - name: Terraform validate
       id: validate
       run: terraform validate -no-color
+
     - name: Terraform plan
       id: plan
       run: terraform plan -no-color
       continue-on-error: true
+
     - name: Terraform Plan Status
       if: steps.plan.outcome == 'failure'
       run: exit 1
+
     - name: Terraform apply
       run: terraform apply -auto-approve -var-file="terraform.tfvars"
+
     - name: Publish
       run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader'

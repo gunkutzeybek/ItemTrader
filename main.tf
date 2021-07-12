@@ -4,6 +4,11 @@ provider "azurerm" {
 }
 
 terraform{
+    required_providers {
+        azurerm = {
+            source = "hashicorp/azurerm"
+        }        
+    }
     backend "remote" {
         organization = "gunkut_dev"
 
