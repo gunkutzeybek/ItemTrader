@@ -34,7 +34,7 @@ resource "azurerm_sql_server" "gunkut_dev" {
     location = azurerm_resource_group.gunkut_dev.location
     version = "12.0"
     administrator_login = "gunkut"
-    administrator_login_password = "gunkut_Dv$$45"
+    administrator_login_password = "compela_Dv$$45"
 }
 
 resource "azurerm_sql_database" "gunkut_dev" {
