@@ -74,13 +74,13 @@ jobs:
     - name: Deploy Api WebAPP
       uses: Azure/Webapps-deploy@v2
       with: 
-        app-name: $(terraform output app_service_name_itemtrader_api)
+        app-name: itemtrader-appservice
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.Api
     
     - name: Deploy AuthServer WebApp
       uses: Azure/Webapps-deploy@v2
       with:
-        app-name: $(terraform output app_service_name_auth_server)
+        app-name: itemtrader-authserver
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/ItemTrader.AuthServer
       
     
