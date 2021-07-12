@@ -5,7 +5,7 @@ provider "azurerm" {
 
 terraform{
     backend "remote" {
-        organization: "gunkut_dev"
+        organization = "gunkut_dev"
 
         workspaces {
             name = "ItemTrader-APIDriven"
