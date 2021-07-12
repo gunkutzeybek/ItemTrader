@@ -1,14 +1,14 @@
-provider "azurerm" {
-    version = "2.5.0"
-    features {}
-}
-
 terraform{
     required_providers {
         azurerm = {
             source = "hashicorp/azurerm"
-        }        
+        }
+        random = {
+            source  = "hashicorp/random"
+            version = "3.0.1"
+        }    
     }
+
     backend "remote" {
         organization = "gunkut_dev"
 
@@ -18,18 +18,23 @@ terraform{
     }
 }
 
+provider "azurerm" {
+    version = "2.5.0"
+    features {}
+}
+
 resource "azurerm_resource_group" "gunkut_dev" {
     name = "itemtrader-tf"
     location = "westus2"
 }
 
 resource "azurerm_sql_server" "gunkut_dev" {
-    name = var.SQL_SERVER_NAME
+    name = "itemtrader-dbserver"
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     location = azurerm_resource_group.gunkut_dev.location
     version = "12.0"
-    administrator_login = var.SQL_DB_USER
-    asministrator_login_password = var.SQL_DB_PASS
+    administrator_login = "gunkut"
+    administrator_login_password = "gunkut_dev$$"
 }
 
 resource "azurerm_sql_database" "gunkut_dev" {
