@@ -43,9 +43,7 @@ jobs:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      with:
-        args: '-var="SQL_SERVER_NAME=${{ secrets.SQL_SERVER_NAME }}" -var="SQL_DB_USER=${{ secrets.SQL_DB_USER }}" -var="SQL_DB_PASS=${{ secrets.SQL_DB_PASS }}"'
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}      
       
     - name: Terraform validate
       id: validate
