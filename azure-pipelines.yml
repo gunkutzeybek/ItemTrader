@@ -17,24 +17,12 @@ jobs:
   - job:
     displayName: Agent Job 1    
     steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        feedsToUse: 'select'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'build'
-        projects: '**/*.csproj'
-        arguments: '--configuration $(BuildConfiguration)'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: 'test/ItemTrader.Application.UnitTests/ItemTrader.Application.UnitTests.csproj'
-        arguments: '--configuration $(BuildConfiguration)'
-        publishTestResults: true        
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: true
-        arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    - script: dotnet restore
+      displayName: Restore    
+    - script: dotnet build --configuration $(BuildConfiguration)
+      displayName: Build    
+    - script: dotnet test  --configuration $(BuildConfiguration)
+      displayName: Test
+    - script: dotnet publish --configuration $(BuildConfiguration) -- output $(build.artifactstagingdirectory)
+      displayName: Publish
   
