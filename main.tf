@@ -38,6 +38,11 @@ variable "SQL_SERVER_NAME" {
     description = "Azure SQL Server Name"
 }
 
+variable "APP_INSIGHTS_INS_KEY" {
+    type = string
+    description = "Application Insights Instrumentation Key"
+}
+
 resource "azurerm_resource_group" "gunkut_dev" {
     name = "itemtrader-tf"
     location = "westus2"
@@ -70,8 +75,8 @@ resource "azurerm_app_service_plan" "gunkut_dev" {
     }    
 }
 
-resource "azurerm_app_service" "itemtrader_api" {
-    name = "itemtrader-appservice"
+resource "azurerm_app_service" "auth_server" {
+    name = "itemtrader-authserver"
     location = azurerm_resource_group.gunkut_dev.location
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     app_service_plan_id = azurerm_app_service_plan.gunkut_dev.id   
@@ -83,11 +88,16 @@ resource "azurerm_app_service" "itemtrader_api" {
     }
 }
 
-resource "azurerm_app_service" "auth_server" {
-    name = "itemtrader-authserver"
+resource "azurerm_app_service" "itemtrader_api" {
+    name = "itemtrader-appservice"
     location = azurerm_resource_group.gunkut_dev.location
     resource_group_name = azurerm_resource_group.gunkut_dev.name
     app_service_plan_id = azurerm_app_service_plan.gunkut_dev.id   
+
+    app_settings = {
+        "AuthServer:Authority" = azurerm_app_service.auth_server.default_site_hostname
+        "ApplicationInsights:InstrumentationKey" = var.APP_INSIGHTS_INS_KEY
+    }
 
     connection_string {
         name = "DefaultConnection"

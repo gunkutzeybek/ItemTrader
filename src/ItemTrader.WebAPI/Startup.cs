@@ -37,7 +37,7 @@ namespace ItemTrader.Api
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:5001";
+                    options.Authority = Configuration["AuthServer:Authority"];
 
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
