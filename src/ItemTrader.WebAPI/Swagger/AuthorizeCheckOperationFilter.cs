@@ -16,8 +16,12 @@ namespace ItemTrader.Api.Swagger
 
             if (hasAuthorize)
             {
+                operation.Responses.Add("200", new OpenApiResponse{Description = "OK"});
+                operation.Responses.Add("201", new OpenApiResponse { Description = "Created" });
+                operation.Responses.Add("204", new OpenApiResponse { Description = "NoContent" });
                 operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
-                operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+                operation.Responses.Add("404", new OpenApiResponse { Description = "NotFound" });
+
 
                 operation.Security = new List<OpenApiSecurityRequirement>
                 {
