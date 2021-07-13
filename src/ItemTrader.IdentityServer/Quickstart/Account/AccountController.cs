@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ItemTrader.Infrastructure.Identity;
+using ItemTrader.IdentityServer.Models;
 
 namespace IdentityServerHost.Quickstart.UI
 {

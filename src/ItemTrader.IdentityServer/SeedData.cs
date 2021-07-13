@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
 using ItemTrader.IdentityServer.Data;
-using ItemTrader.Infrastructure.Identity;
+using ItemTrader.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

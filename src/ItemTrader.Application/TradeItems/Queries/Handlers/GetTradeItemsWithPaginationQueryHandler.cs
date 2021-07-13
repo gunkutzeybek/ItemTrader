@@ -8,7 +8,6 @@ using ItemTrader.Application.Common.Interfaces;
 using ItemTrader.Application.Common.Mappings;
 using ItemTrader.Application.Common.Models;
 using ItemTrader.Application.TradeItems.Dto;
-using ItemTrader.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

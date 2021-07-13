@@ -4,7 +4,7 @@
 
 using IdentityServer4;
 using ItemTrader.IdentityServer.Data;
-using ItemTrader.Infrastructure.Identity;
+using ItemTrader.IdentityServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

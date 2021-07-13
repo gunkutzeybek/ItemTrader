@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using ItemTrader.Application.Common.Interfaces;
-using ItemTrader.Application.Common.Models;
 using ItemTrader.Application.Common.PipelineBehaviours;
 using ItemTrader.Application.Proposals.Commands;
 using ItemTrader.Application.Proposals.Dto;
-using ItemTrader.Application.Proposals.Queries;
+using ItemTrader.Application.TradeItems.Queries;
 using MediatR;
 using Moq;
 using NUnit.Framework;
@@ -41,9 +40,9 @@ namespace ItemTrader.Application.UnitTests.Common.PipelineBehaviours
         {
             _currentUserService.Setup(c => c.UserId).Returns("3813d77b-e04e-4a12-a036-fab1de9d16fb");
 
-            var setOwnerBehaviour = new SetOwnerBehaviour<GetProposalsWithPaginationQuery, ProposalDto>(_currentUserService.Object);
+            var setOwnerBehaviour = new SetOwnerBehaviour<GetTradeItemsWithPaginationQuery, ProposalDto>(_currentUserService.Object);
 
-            var query = new GetProposalsWithPaginationQuery();
+            var query = new GetTradeItemsWithPaginationQuery();
             await setOwnerBehaviour.Handle(query, new CancellationToken(), _next.Object);
 
             Assert.IsNull(query.OwnerId);

@@ -28,10 +28,9 @@ namespace ItemTrader.Application.Proposals.Queries.Handlers
             return _context.Proposals
                 .AsNoTracking()
                 .Where(p =>
-                    (string.IsNullOrWhiteSpace(request.ProposedToId) || p.ProposedToId == request.ProposedToId) &&
+                    (p.ProposedToId == request.OwnerId || p.OwnerId == request.OwnerId) &&
                     (request.OfferedItemId == default(int) || p.OfferedItemId == request.OfferedItemId) &&
-                    (request.Status == null || request.Status.Value == (int) p.Status) &&
-                    p.OwnerId == request.OwnerId
+                    (request.Status == null || request.Status.Value == (int) p.Status)
                 )
                 .OrderByDescending(p => p.Created)
                 .ProjectTo<ProposalDto>(_mapper.ConfigurationProvider)
