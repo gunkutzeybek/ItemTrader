@@ -98,6 +98,19 @@ Auth Server : https://itemtrader-authserver.azurewebsites.net/account/login
 <br/>
 <br/>
 
+## Users
+* allen
+* mary
+* bob
+* john
+* alice
+* amanda
+
+Password for all users : Pass123$
+
+<br/>
+<br/>
+
 ## API Refernce
 
 * /tradeitems endpoint
