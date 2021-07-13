@@ -177,4 +177,10 @@ Password for all users : Pass123$
         * 200 OK
         * 400 BadRequest
 
+<br/>
+<br/>
 
+# About Unit Tests
+
+The IdentityServer4 is a third party product. So no tests are written for its code.
+Most of the core functionality is covered.
