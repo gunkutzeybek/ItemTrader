@@ -51,8 +51,8 @@ namespace ItemTrader.Api
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
-                            TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                            AuthorizationUrl = new Uri($"{Configuration["AuthServer:Authority"]}/connect/authorize"),
+                            TokenUrl = new Uri($"{Configuration["AuthServer:Authority"]}/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 {"ItemTraderAPI", "ItemTrader API - full access"}
