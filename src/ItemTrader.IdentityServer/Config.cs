@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 
@@ -39,7 +40,20 @@ namespace ItemTrader.IdentityServer
 
                     AllowedScopes = { "openid", "ItemTraderAPI" }
                 },
+                new Client
+                {
+                    ClientId = "api_swagger",
+                    ClientName = "Swagger UI for ItemTrader API",
+                    ClientSecrets = {new Secret("secret".Sha256())}, // change me!
 
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+
+                    RedirectUris = {"https://itemtrader-appservice.azurewebsites.net/swagger/oauth2-redirect.html" },
+                    AllowedCorsOrigins = {"https://itemtrader-appservice.azurewebsites.net"},
+                    AllowedScopes = { "openid", "ItemTraderAPI" }
+                },
                 // interactive client using code flow + pkce
                 new Client
                 {

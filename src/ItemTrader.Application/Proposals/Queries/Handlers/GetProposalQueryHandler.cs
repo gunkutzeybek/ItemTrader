@@ -25,7 +25,6 @@ namespace ItemTrader.Application.Proposals.Queries.Handlers
         {
             var proposal = await _context.Proposals
                 .AsNoTracking()
-                .ProjectTo<ProposalDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(p => p.OwnerId == request.OwnerId && p.Id == request.ProposalId, cancellationToken);
 
             if (proposal == null)
@@ -33,7 +32,7 @@ namespace ItemTrader.Application.Proposals.Queries.Handlers
                 throw new NotFoundException("Resource couldn't be found.");
             }
 
-            return proposal;
+            return _mapper.Map<ProposalDto>(proposal);
         }
     }
 }

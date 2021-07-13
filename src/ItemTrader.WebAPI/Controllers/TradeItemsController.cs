@@ -1,9 +1,11 @@
-﻿using System.Net.Mail;
+﻿using System;
+using System.Net.Mail;
 using ItemTrader.Application.Common.Models;
 using ItemTrader.Application.TradeItems.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using FluentValidation;
 using ItemTrader.Application.Common.Exceptions;
 using ItemTrader.Application.TradeItems.Commands;
 using ItemTrader.Application.TradeItems.Queries;
@@ -37,9 +39,15 @@ namespace ItemTrader.Api.Controllers
         [Authorize]
         public async Task<ActionResult<int>> Create(CreateTradeItemCommand command)
         {
-
-            var result = await Mediator.Send(command);
-            return CreatedAtAction("Get", result);
+            try
+            {
+                var result = await Mediator.Send(command);
+                return CreatedAtAction("Get", result);
+            }
+            catch (ValidationException ve)
+            {
+                return BadRequest(ve.Message);
+            }
         }
 
         [HttpDelete("{id}")]
@@ -48,12 +56,16 @@ namespace ItemTrader.Api.Controllers
         {
             try
             {
-                await Mediator.Send(new DeleteTradeItemCommand { TradeItemId = id });
+                await Mediator.Send(new DeleteTradeItemCommand {TradeItemId = id});
                 return NoContent();
             }
             catch (NotFoundException nfe)
             {
                 return NotFound(nfe.Message);
+            }
+            catch (ValidationException ve)
+            {
+                return BadRequest(ve.Message);
             }
         }
     }

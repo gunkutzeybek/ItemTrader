@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using FluentValidation;
 
 namespace ItemTrader.Api.Controllers
 {
@@ -51,9 +52,9 @@ namespace ItemTrader.Api.Controllers
             try
             {
                 var result = await Mediator.Send(command);
-                return CreatedAtAction("GetSingle", new { id = result.Id }, result);
+                return CreatedAtAction("GetSingle", new {id = result.Id}, result);
             }
-            catch (ProposalItemException ex)
+            catch (Exception ex) when (ex is ProposalItemException || ex is ValidationException)
             {
                 return BadRequest(ex.Message);
             }
@@ -69,9 +70,9 @@ namespace ItemTrader.Api.Controllers
                 var result = await Mediator.Send(command);
                 return Ok(result);
             }
-            catch(ProposalItemException pie)
+            catch(Exception ex) when (ex is ProposalItemException || ex is ValidationException)
             {
-                return BadRequest(pie.Message);
+                return BadRequest(ex.Message);
             }
         }
     }

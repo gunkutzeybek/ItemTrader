@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using ItemTrader.Application.Common.Exceptions;
 using ItemTrader.Domain.Common.Interfaces;
 
 namespace ItemTrader.Infrastructure.Persistence
@@ -47,11 +48,26 @@ namespace ItemTrader.Infrastructure.Persistence
                 }
             }
 
-            var result = await base.SaveChangesAsync(cancellationToken);
+            try
+            {
+                var result = await base.SaveChangesAsync(cancellationToken);
 
-            await DispatchEvents();
+                await DispatchEvents();
 
-            return result;
+                return result;
+            }
+            catch (DbUpdateConcurrencyException dce)
+            {
+                var entry = dce.Entries?.FirstOrDefault();
+                if (entry != null)
+                {
+                    throw new ConcurrencyException($"Conflict occured for entity : {entry.Metadata.Name}");
+                }
+                else
+                {
+                    throw new ConcurrencyException("Conflict occured.");
+                }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

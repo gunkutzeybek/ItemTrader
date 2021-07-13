@@ -32,6 +32,7 @@ namespace ItemTrader.Application.TradeItems.Queries.Handlers
                     (string.IsNullOrWhiteSpace(request.Name) || x.Name == request.Name) 
                     && (string.IsNullOrWhiteSpace(request.OwnerId) || x.OwnerId == request.OwnerId))
                 .Include(t => t.Owner)
+                .OrderByDescending(t => t.Created)
                 .ProjectTo<TradeItemDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
         }

@@ -4,6 +4,7 @@ using FluentValidation;
 using ItemTrader.Application.Common.Mappings;
 using ItemTrader.Application.Common.PipelineBehaviours;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ItemTrader.Application
@@ -17,6 +18,7 @@ namespace ItemTrader.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(SetOwnerBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidateRequestBehaviour<,>));
 

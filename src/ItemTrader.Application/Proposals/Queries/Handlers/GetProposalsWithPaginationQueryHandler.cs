@@ -33,6 +33,7 @@ namespace ItemTrader.Application.Proposals.Queries.Handlers
                     (request.Status == null || request.Status.Value == (int) p.Status) &&
                     p.OwnerId == request.OwnerId
                 )
+                .OrderByDescending(p => p.Created)
                 .ProjectTo<ProposalDto>(_mapper.ConfigurationProvider)
                 .PaginatedListAsync(request.PageNumber, request.PageSize);
 
