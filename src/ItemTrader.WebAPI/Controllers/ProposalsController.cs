@@ -29,7 +29,7 @@ namespace ItemTrader.Api.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<ProposalDto>> GetSingle(int id)
+        public async Task<ActionResult<ProposalDto>> Get(int id)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace ItemTrader.Api.Controllers
             try
             {
                 var result = await Mediator.Send(command);
-                return CreatedAtAction("GetSingle", new {id = result.Id}, result);
+                return CreatedAtAction("Get", new {id = result.Id}, result);
             }
             catch (Exception ex) when (ex is ProposalItemException || ex is ValidationException)
             {

@@ -14,13 +14,13 @@ namespace ItemTrader.Api.Controllers
 {
     public class TradeItemsController : ApiControllerBase
     {
-        [HttpGet("{tradeItemId}")]
+        [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<TradeItemDto>> Get([FromQuery] GetSingleTradeItemQuery query)
+        public async Task<ActionResult<TradeItemDto>> Get(int id)
         {
             try
             {
-                return await Mediator.Send(query);
+                return await Mediator.Send(new GetSingleTradeItemQuery { TradeItemId = id });
             }
             catch (NotFoundException nfe)
             {

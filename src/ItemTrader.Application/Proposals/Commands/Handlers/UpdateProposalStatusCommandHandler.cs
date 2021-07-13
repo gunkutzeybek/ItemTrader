@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -43,7 +44,9 @@ namespace ItemTrader.Application.Proposals.Commands.Handlers
             proposal.Status = requestedStatus;
 
             UpdateTradeItems(proposal);
-            
+
+            await CancelAllProposalsHavingTheseItemsAsync(proposal);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<ProposalDto>(proposal);
@@ -72,6 +75,22 @@ namespace ItemTrader.Application.Proposals.Commands.Handlers
             requestedItem.OwnerId = tempOwner;
         }
 
+        private async Task CancelAllProposalsHavingTheseItemsAsync(Proposal proposal)
+        {
+            if (proposal.Status == ProposalStatus.Accepted)
+            {
+                var toCancel = _context.Proposals
+                    .Where(p => p.Id != proposal.Id && p.Status == ProposalStatus.Active &&
+                                (p.RequestedItemId == proposal.RequestedItemId ||
+                                 p.OfferedItemId == proposal.RequestedItemId ||
+                                 p.RequestedItemId == proposal.OfferedItemId ||
+                                 p.OfferedItemId == proposal.OfferedItemId))
+                    .AsQueryable();
+
+                await toCancel.ForEachAsync((p) => { p.Status = ProposalStatus.Cancelled; });
+            }
+        }
+
         private void ValidateProposalUpdate(UpdateProposalStatusCommand command, Proposal proposal)
         {
             if (proposal == null)
@@ -91,7 +110,17 @@ namespace ItemTrader.Application.Proposals.Commands.Handlers
 
             if (proposal.Status == ProposalStatus.Cancelled && command.Status == (int)ProposalStatus.Active)
             {
-                throw new ProposalItemException("Cancelled propsal cannot be activated again. Please create a new proposal.");
+                throw new ProposalItemException("Cancelled proposal cannot be activated again. Please create a new proposal.");
+            }
+
+            if (proposal.Status == ProposalStatus.Cancelled && command.Status == (int)ProposalStatus.Accepted)
+            {
+                throw new ProposalItemException("Cancelled proposal cannot be accepted. Please create a new proposal.");
+            }
+
+            if (proposal.Status == ProposalStatus.Cancelled && command.Status == (int)ProposalStatus.Rejected)
+            {
+                throw new ProposalItemException("Cancelled proposal cannot be rejected.");
             }
         }
     }
