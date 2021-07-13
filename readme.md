@@ -95,6 +95,9 @@ Auth Server : https://itemtrader-authserver.azurewebsites.net/account/login
 * Enter a username and password (you can find them below).
 * After a successful login, you'll be redirected back to swagger. Swagger now has the access token necessary to do requests on behalf of the logged in user.
 
+(Due to a bug in QuickStart IdentityServer4 UI, the auth server sample UI keeps cookies and logs you back in without asking credentials. 
+If you redirected back to swagger without the login credentials are asked, then please logout and clear cookies from the source https://itemtrader-authserver.azurewebsites.net)
+
 <br/>
 <br/>
 
